@@ -7,64 +7,29 @@
 
 import Foundation
 
-struct WeatherData: Codable {
-    
-    let city: City
+struct WeatherResponse: Codable {
+    let lat: Float
+    let lon: Float
     let currently: CurrentWeather
-    let hourly: [HourlyWeather]
-    let daily: [DailyWeather]
-    
-    struct City: Codable {
-        let id: Int
-        let name: String
-        let coord: Coordinate
-        let country: String
-        let timezone: Int
-        
-        struct Coordinate: Codable {
-            let lon: Double
-            let lat: Double
-        }
-    }
-    
-    struct CurrentWeather: Codable {
-        let temp: Double
-        let humidity: Int
-        let windSpeed: Double
-        let weather: [Weather]
-        
-        enum CodingKeys: String, CodingKey {
-            case temp
-            case humidity
-            case windSpeed = "speed"
-            case weather
-        }
-    }
-    
-    struct HourlyWeather: Codable {
-        let dt: Int
-        let main: Main
-        let weather: [Weather]
-        
-        struct Main: Codable {
-            let temp: Double
-        }
-    }
-    
-    struct DailyWeather: Codable {
-        let dt: Int
-        let temp: Temperature
-        let weather: [Weather]
-        
-        struct Temperature: Codable {
-            let min: Double
-            let max: Double
-        }
-    }
-    
-    struct Weather: Codable {
-        let id: Int
-        let main: String
-        let icon: String
-    }
+    //    let hourly: HourlyWeather
+    //    let daily: DailyWeather
+    //    let offset: Float
 }
+
+struct CurrentWeather: Codable {
+    let main: Main
+    let weather: Weather
+}
+
+struct Main: Codable {
+    let humidity: Int?
+    let temp_min: Double
+    let temp_max: Double
+}
+
+struct Weather: Codable {
+    let description: String?
+    let id: Int
+}
+
+
