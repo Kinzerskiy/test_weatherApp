@@ -49,9 +49,6 @@ struct Wind: Codable {
 
 
 struct HourlyWeatherResponse: Codable {
-    let cod: String
-    let message: Int
-    let cnt: Int
     let list: [HourlyWeatherItem]
     let city: City
 }
@@ -60,29 +57,15 @@ struct HourlyWeatherItem: Codable {
     let dt: Int
     let main: Main
     let weather: [Weather]
-    let clouds: Clouds
     let wind: Wind
     let visibility: Int
     let pop: Double
-    let rain: Rain?
-    let sys: Sys
     let dt_txt: String
 }
 
-struct Clouds: Codable {
-    let all: Int
-}
-
-struct Rain: Codable {
-    let h1: Double?
-    
-    enum CodingKeys: String, CodingKey {
-        case h1 = "1h"
-    }
-}
-
-struct Sys: Codable {
-    let pod: String
+struct DailyWeatherResponse: Codable {
+    let list: [DailyWeatherItem]
+    let city: City
 }
 
 struct City: Codable {
@@ -92,6 +75,31 @@ struct City: Codable {
     let country: String
     let population: Int
     let timezone: Int
-    let sunrise: Int
-    let sunset: Int
+}
+
+struct DailyWeatherItem: Codable {
+    let dt: Int
+    let main: Main
+    let weather: [Weather]
+    let wind: Wind
+    let visibility: Int
+    let pop: Double
+    let dt_txt: String
+    
+}
+
+struct Temperature: Codable {
+    let day: Double
+    let min: Double
+    let max: Double
+    let night: Double
+    let eve: Double
+    let morn: Double
+}
+
+struct FeelsLike: Codable {
+    let day: Double
+    let night: Double
+    let eve: Double
+    let morn: Double
 }

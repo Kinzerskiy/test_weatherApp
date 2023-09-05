@@ -22,6 +22,7 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
+        tableView.register(DailyWeatherTableViewCell.nib(), forCellReuseIdentifier: DailyWeatherTableViewCell.identifier)
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -76,22 +77,32 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherTableViewCell.identifier, for: indexPath) as! HourlyWeatherTableViewCell
             cell.configure(with: viewModel.hourlyWeather)
             return cell
-        } else {
-            return UITableViewCell()
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DailyWeatherTableViewCell.identifier, for: indexPath) as! DailyWeatherTableViewCell
+            cell.configure(with: viewModel.daylyWeather[indexPath.row])
+            return cell
+        default:
+            fatalError("Unknown section")
         }
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case 0:
             return 1
-        } else {
-            return viewModel.hourlyWeather.count
+        case 1:
+            return viewModel.daylyWeather.count
+        default:
+            return 0
         }
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
@@ -131,6 +142,15 @@ extension WeatherViewController: CLLocationManagerDelegate {
                         self.tableView.reloadData()
                     }
                 }
+                
+                viewModel.manager.fetchDailyWeather(latitude: Float(lat), longitude: Float(long)) { dailyData in
+                    DispatchQueue.main.async {
+                        self.viewModel.daylyWeather = dailyData
+                        self.tableView.reloadData()
+                    }
+                }
+
+                
             }
         }
     }

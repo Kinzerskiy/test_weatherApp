@@ -15,7 +15,7 @@ class WeatherManager {
     
     func fetchWeather(latitude: Float, longitude: Float, completion: @escaping () -> Void) {
         
-        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
+        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather?")
         components?.queryItems = [
             URLQueryItem(name: "lat", value: "\(latitude)"),
             URLQueryItem(name: "lon", value: "\(longitude)"),
@@ -61,7 +61,7 @@ class WeatherManager {
     
     
     func fetchHourlyWeather(latitude: Float, longitude: Float, completion: @escaping ([HourlyWeatherItem]) -> Void) {
-        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast")
+        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast?")
         components?.queryItems = [
             URLQueryItem(name: "lat", value: "\(latitude)"),
             URLQueryItem(name: "lon", value: "\(longitude)"),
@@ -89,5 +89,48 @@ class WeatherManager {
             }
         }.resume()
     }
+    
+    func fetchDailyWeather(latitude: Float, longitude: Float, completion: @escaping ([DailyWeatherItem]) -> Void) {
+        
+        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast?")
+        components?.queryItems = [
+            URLQueryItem(name: "lat", value: "\(latitude)"),
+            URLQueryItem(name: "lon", value: "\(longitude)"),
+            URLQueryItem(name: "cnt", value: "7"),
+            URLQueryItem(name: "appid", value: "64a9508f6f5e235e99b38adb50fd82ea")
+        ]
+        
+        guard let url = components?.url else {
+            print("Invalid URL")
+            completion([])
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let data = data, error == nil {
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedResponse = try decoder.decode(DailyWeatherResponse.self, from: data)
+                    
+                    print(String(data: data, encoding: .utf8) ?? "Invalid data")
+
+                    completion(decodedResponse.list)
+                }
+            
+            catch DecodingError.keyNotFound(let key, let context) {
+                print("Key not found: \(key.stringValue) in \(context.debugDescription)")
+            } catch DecodingError.typeMismatch(_, let context) {
+                print("Type mismatch: \(context.debugDescription)")
+            } catch {
+                print("Other decoding error: \(error)")
+            }
+              
+            } else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                completion([])
+            }
+        }.resume()
+    }
+
 
 }

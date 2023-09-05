@@ -13,8 +13,7 @@
 		8E7AA5442AA61E530073EDBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7AA5422AA61E530073EDBF /* Main.storyboard */; };
 		8E7AA5462AA61E580073EDBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7AA5452AA61E580073EDBF /* Assets.xcassets */; };
 		8E7AA5492AA61E580073EDBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7AA5472AA61E580073EDBF /* LaunchScreen.storyboard */; };
-		8E7AA5562AA625EA0073EDBF /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5542AA625EA0073EDBF /* WeatherTableViewCell.swift */; };
-		8E7AA5572AA625EA0073EDBF /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7AA5552AA625EA0073EDBF /* WeatherTableViewCell.xib */; };
+		8E7AA5562AA625EA0073EDBF /* DailyWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5542AA625EA0073EDBF /* DailyWeatherTableViewCell.swift */; };
 		8E7AA5632AA62A850073EDBF /* WeatherMapUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5622AA62A850073EDBF /* WeatherMapUIViewController.swift */; };
 		8E7AA5652AA630520073EDBF /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5642AA630520073EDBF /* WeatherModel.swift */; };
 		8E7AA5672AA6382D0073EDBF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5662AA6382D0073EDBF /* WeatherManager.swift */; };
@@ -24,6 +23,7 @@
 		8E8A0BC42AA7625200EEE056 /* HourlyWeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8A0BC22AA7625200EEE056 /* HourlyWeatherCollectionViewCell.swift */; };
 		8E8A0BC52AA7625200EEE056 /* HourlyWeatherCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E8A0BC32AA7625200EEE056 /* HourlyWeatherCollectionViewCell.xib */; };
 		8E8A0BCB2AA764B100EEE056 /* HourlyWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E8A0BC92AA764B100EEE056 /* HourlyWeatherTableViewCell.xib */; };
+		8E8A0BCD2AA7787000EEE056 /* DailyWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E8A0BCC2AA7787000EEE056 /* DailyWeatherTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,8 +35,7 @@
 		8E7AA5452AA61E580073EDBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E7AA5482AA61E580073EDBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E7AA54A2AA61E580073EDBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E7AA5542AA625EA0073EDBF /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
-		8E7AA5552AA625EA0073EDBF /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherTableViewCell.xib; sourceTree = "<group>"; };
+		8E7AA5542AA625EA0073EDBF /* DailyWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		8E7AA5622AA62A850073EDBF /* WeatherMapUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMapUIViewController.swift; sourceTree = "<group>"; };
 		8E7AA5642AA630520073EDBF /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		8E7AA5662AA6382D0073EDBF /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
@@ -46,6 +45,7 @@
 		8E8A0BC22AA7625200EEE056 /* HourlyWeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E8A0BC32AA7625200EEE056 /* HourlyWeatherCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyWeatherCollectionViewCell.xib; sourceTree = "<group>"; };
 		8E8A0BC92AA764B100EEE056 /* HourlyWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyWeatherTableViewCell.xib; sourceTree = "<group>"; };
+		8E8A0BCC2AA7787000EEE056 /* DailyWeatherTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyWeatherTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +92,8 @@
 		8E7AA5502AA625780073EDBF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				8E7AA5542AA625EA0073EDBF /* WeatherTableViewCell.swift */,
-				8E7AA5552AA625EA0073EDBF /* WeatherTableViewCell.xib */,
+				8E7AA5542AA625EA0073EDBF /* DailyWeatherTableViewCell.swift */,
+				8E8A0BCC2AA7787000EEE056 /* DailyWeatherTableViewCell.xib */,
 				8E8A0BC22AA7625200EEE056 /* HourlyWeatherCollectionViewCell.swift */,
 				8E8A0BC32AA7625200EEE056 /* HourlyWeatherCollectionViewCell.xib */,
 				8E8A0BC02AA75FA100EEE056 /* HourlyWeatherTableViewCell.swift */,
@@ -216,7 +216,7 @@
 			files = (
 				8E8A0BCB2AA764B100EEE056 /* HourlyWeatherTableViewCell.xib in Resources */,
 				8E8A0BC52AA7625200EEE056 /* HourlyWeatherCollectionViewCell.xib in Resources */,
-				8E7AA5572AA625EA0073EDBF /* WeatherTableViewCell.xib in Resources */,
+				8E8A0BCD2AA7787000EEE056 /* DailyWeatherTableViewCell.xib in Resources */,
 				8E7AA5492AA61E580073EDBF /* LaunchScreen.storyboard in Resources */,
 				8E7AA5462AA61E580073EDBF /* Assets.xcassets in Resources */,
 				8E7AA5442AA61E530073EDBF /* Main.storyboard in Resources */,
@@ -230,7 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E7AA5562AA625EA0073EDBF /* WeatherTableViewCell.swift in Sources */,
+				8E7AA5562AA625EA0073EDBF /* DailyWeatherTableViewCell.swift in Sources */,
 				8E7AA5412AA61E530073EDBF /* WeatherViewController.swift in Sources */,
 				8E7AA5672AA6382D0073EDBF /* WeatherManager.swift in Sources */,
 				8E7AA5632AA62A850073EDBF /* WeatherMapUIViewController.swift in Sources */,
