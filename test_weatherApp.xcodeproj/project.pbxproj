@@ -21,6 +21,7 @@
 		8E7AA5652AA630520073EDBF /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5642AA630520073EDBF /* WeatherModel.swift */; };
 		8E7AA5672AA6382D0073EDBF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5662AA6382D0073EDBF /* WeatherManager.swift */; };
 		8E7AA5692AA638B10073EDBF /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA5682AA638B10073EDBF /* WeatherData.swift */; };
+		8E7AA56B2AA66FC70073EDBF /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7AA56A2AA66FC70073EDBF /* WeatherViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		8E7AA5642AA630520073EDBF /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		8E7AA5662AA6382D0073EDBF /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		8E7AA5682AA638B10073EDBF /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		8E7AA56A2AA66FC70073EDBF /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		8E7AA55F2AA6286A0073EDBF /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				8E7AA56A2AA66FC70073EDBF /* WeatherViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				8E7AA5672AA6382D0073EDBF /* WeatherManager.swift in Sources */,
 				8E7AA5632AA62A850073EDBF /* WeatherMapUIViewController.swift in Sources */,
 				8E7AA5652AA630520073EDBF /* WeatherModel.swift in Sources */,
+				8E7AA56B2AA66FC70073EDBF /* WeatherViewModel.swift in Sources */,
 				8E7AA55A2AA625FC0073EDBF /* HourlyTableViewCell.swift in Sources */,
 				8E7AA53D2AA61E530073EDBF /* AppDelegate.swift in Sources */,
 				8E7AA5692AA638B10073EDBF /* WeatherData.swift in Sources */,

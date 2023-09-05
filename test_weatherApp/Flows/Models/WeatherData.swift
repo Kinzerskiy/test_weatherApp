@@ -8,28 +8,41 @@
 import Foundation
 
 struct WeatherResponse: Codable {
-    let lat: Float
-    let lon: Float
-    let currently: CurrentWeather
-    //    let hourly: HourlyWeather
-    //    let daily: DailyWeather
-    //    let offset: Float
-}
-
-struct CurrentWeather: Codable {
+    let coord: Coord
+    let weather: [Weather]
     let main: Main
-    let weather: Weather
+    let wind: Wind
+    let name: String
 }
 
-struct Main: Codable {
-    let humidity: Int?
-    let temp_min: Double
-    let temp_max: Double
+struct Coord: Codable {
+    let lon: Double
+    let lat: Double
 }
 
 struct Weather: Codable {
-    let description: String?
     let id: Int
+    let main: String
+    let description: String
+    let icon: String
 }
 
+struct Main: Codable {
+    let temp: Double
+ 
+    let tempMin: Double
+    let tempMax: Double
+    
+    let humidity: Int
+   
 
+    enum CodingKeys: String, CodingKey {
+        case temp, humidity
+        case tempMin = "temp_min"
+        case tempMax = "temp_max"
+    }
+}
+
+struct Wind: Codable {
+    let speed: Double
+}

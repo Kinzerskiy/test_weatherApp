@@ -9,12 +9,13 @@ import Foundation
 
 struct WeatherModel {
     
-    let conditionId: Int
-    let cityName: String
-    let tempMin: Double
-    let tempMax: Double
-    let humidity: Int?
-    let description: String?
+    var conditionId: Int
+    var cityName: String
+    var temperature: Double
+    var tempMin: Double
+    var tempMax: Double
+    var humidity: Int
+    var description: String?
     
     var tempeMinString: String {
         return String(format: "%.1f", tempMin)
@@ -45,3 +46,5 @@ struct WeatherModel {
         }
     }
 }
+
+
