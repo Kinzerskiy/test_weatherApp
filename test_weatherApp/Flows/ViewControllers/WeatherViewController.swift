@@ -17,15 +17,12 @@ class WeatherViewController: UIViewController {
     var currentLocation: CLLocation?
     
     let viewModel = WeatherViewModel()
-
-  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(HourlyTableViewCell.nib(), forCellReuseIdentifier: HourlyTableViewCell.identifier)
-        tableView.register(WeatherTableViewCell.nib(), forCellReuseIdentifier: WeatherTableViewCell.identifier)
-        
+        tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
+
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -78,12 +75,30 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         return 2
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherTableViewCell.identifier, for: indexPath) as! HourlyWeatherTableViewCell
+            cell.configure(with: viewModel.hourlyWeather)
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return viewModel.hourlyWeather.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 250.0
+        } else {
+            return UITableView.automaticDimension
+        }
     }
 }
 
@@ -101,13 +116,23 @@ extension WeatherViewController: CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
 
             if let lat = currentLocation?.coordinate.latitude, let long = currentLocation?.coordinate.longitude {
+                
+               
                 viewModel.manager.fetchWeather(latitude: Float(lat), longitude: Float(long)) {
                     DispatchQueue.main.async {
                         self.tableView.tableHeaderView = self.createTableHeader()
                         self.tableView.reloadData()
                     }
                 }
+                
+                viewModel.manager.fetchHourlyWeather(latitude: Float(lat), longitude: Float(long)) { hourlyData in
+                    DispatchQueue.main.async {
+                        self.viewModel.hourlyWeather = hourlyData
+                        self.tableView.reloadData()
+                    }
+                }
             }
         }
     }
+
 }

@@ -10,4 +10,5 @@ import UIKit
 
 class WeatherViewModel {
     let manager = WeatherManager()
+    var hourlyWeather: [HourlyWeatherItem] = []
 }
