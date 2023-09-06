@@ -28,17 +28,20 @@ class HourlyWeatherCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: HourlyWeatherItem) {
         self.hoursLabel.text = model.dt_txt
-        self.tempLabel.text = String(format: "%.1f", model.main.temp ?? 0) + "°C"
+        self.tempLabel.text = String(format: "%.1f", model.main.temp ) + "°C"
         
         if let firstWeather = model.weather.first {
             let weatherModel = WeatherModel(
                 conditionId: firstWeather.id,
                 cityName: "",
-                temperature: model.main.temp ?? 0,
+                temperature: model.main.temp ,
                 tempMin: model.main.tempMin,
                 tempMax: model.main.tempMax,
                 humidity: model.main.humidity,
-                description: firstWeather.description)
+                description: firstWeather.description,
+                windSpeed: nil,
+                date: nil
+            )
             
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }

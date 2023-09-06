@@ -16,6 +16,17 @@ struct WeatherModel {
     var tempMax: Double
     var humidity: Int
     var description: String?
+    var windSpeed: Double?
+    var date: Date?
+    
+    
+    
+        
+    var dateString: String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EE, d MMM"
+            return dateFormatter.string(from: date ?? Date())
+        }
     
     var tempeMinString: String {
         return String(format: "%.1f", tempMin)
@@ -23,6 +34,18 @@ struct WeatherModel {
     
     var tempeMaxString: String {
         return String(format: "%.1f", tempMax)
+    }
+    
+    var temperatureCelsius: Double {
+        return temperature - 273.15
+    }
+
+    var tempMinCelsius: Double {
+        return tempMin - 273.15
+    }
+
+    var tempMaxCelsius: Double {
+        return tempMax - 273.15
     }
     
     var conditionName: String {

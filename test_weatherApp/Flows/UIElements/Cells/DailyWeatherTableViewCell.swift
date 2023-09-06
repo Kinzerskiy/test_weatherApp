@@ -36,9 +36,7 @@ class DailyWeatherTableViewCell: UITableViewCell {
     
     
     func configure(with model: DailyWeatherItem) {
-        
-    
-        
+
         self.dayOfTheWeekLabel.text = model.dt_txt
         self.tempMax.text = String(format: "%.1f", model.main.temp) + "°C"
         
@@ -50,7 +48,10 @@ class DailyWeatherTableViewCell: UITableViewCell {
                 tempMin: model.main.tempMin,
                 tempMax: model.main.tempMax,
                 humidity: model.main.humidity,
-                description: firstWeather.description)
+                description: firstWeather.description,
+                windSpeed: nil,
+                date: nil
+            )
                 
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }

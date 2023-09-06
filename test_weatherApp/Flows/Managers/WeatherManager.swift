@@ -33,10 +33,11 @@ class WeatherManager {
                 do {
                     let decodedResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
                     
-                    
                     let main = decodedResponse.main
                     let weatherItem = decodedResponse.weather.first
                     let name = decodedResponse.name
+                    let windSpeed = decodedResponse.wind.speed
+                    let date = Date(timeIntervalSince1970: TimeInterval(decodedResponse.dt))
 
                     self.weather = WeatherModel(
                         conditionId: weatherItem?.id ?? 0,
@@ -45,7 +46,9 @@ class WeatherManager {
                         tempMin: main.tempMin,
                         tempMax: main.tempMax,
                         humidity: main.humidity,
-                        description: weatherItem?.description
+                        description: weatherItem?.description,
+                        windSpeed: windSpeed,
+                        date: date
                     )
                     completion()
                 } catch {
@@ -58,6 +61,8 @@ class WeatherManager {
             }
         }.resume()
     }
+
+
     
     
     func fetchHourlyWeather(latitude: Float, longitude: Float, completion: @escaping ([HourlyWeatherItem]) -> Void) {

@@ -12,7 +12,6 @@ class WeatherViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     
@@ -23,6 +22,8 @@ class WeatherViewController: UIViewController {
         
         tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
         tableView.register(DailyWeatherTableViewCell.nib(), forCellReuseIdentifier: DailyWeatherTableViewCell.identifier)
+        tableView.register(HeaderTableViewCell.nib(), forCellReuseIdentifier: HeaderTableViewCell.identifier)
+
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -37,34 +38,14 @@ class WeatherViewController: UIViewController {
     
     
     func createTableHeader() -> UIView {
-        let headerVIew = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width))
-
-        headerVIew.backgroundColor = UIColor(red: 52/255.0, green: 109/255.0, blue: 179/255.0, alpha: 1.0)
-
-        let locationLabel = UILabel(frame: CGRect(x: 10, y: 10, width: view.frame.size.width-20, height: headerVIew.frame.size.height/5))
-        let summaryLabel = UILabel(frame: CGRect(x: 10, y: 20+locationLabel.frame.size.height, width: view.frame.size.width-20, height: headerVIew.frame.size.height/5))
-        let tempLabel = UILabel(frame: CGRect(x: 10, y: 20+locationLabel.frame.size.height+summaryLabel.frame.size.height, width: view.frame.size.width-20, height: headerVIew.frame.size.height/2))
-
-        headerVIew.addSubview(locationLabel)
-        headerVIew.addSubview(tempLabel)
-        headerVIew.addSubview(summaryLabel)
-
-        tempLabel.textAlignment = .center
-        locationLabel.textAlignment = .center
-        summaryLabel.textAlignment = .center
-
-        locationLabel.text = "Current Location"
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HeaderTableViewCell.identifier) as? HeaderTableViewCell else {
+            return UIView()
+        }
         guard let currentWeather = self.viewModel.manager.weather else {
             return UIView()
         }
-
-        tempLabel.text = "\(currentWeather.temperature)°"
-        tempLabel.font = UIFont(name: "Helvetica-Bold", size: 32)
-        locationLabel.text = currentWeather.cityName
-        summaryLabel.text = currentWeather.description ?? "No description available"
-
-        return headerVIew
+        cell.configure(with: currentWeather)
+        return cell.contentView
     }
     
 

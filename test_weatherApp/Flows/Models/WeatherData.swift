@@ -13,6 +13,7 @@ struct WeatherResponse: Codable {
     let main: Main
     let wind: Wind
     let name: String
+    let dt: Int
 }
 
 struct Coord: Codable {
