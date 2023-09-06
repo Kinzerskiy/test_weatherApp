@@ -10,7 +10,7 @@ import Foundation
 struct WeatherModel {
     
     var conditionId: Int
-    var cityName: String
+    var cityName: String?
     var temperature: Double
     var tempMin: Double
     var tempMax: Double

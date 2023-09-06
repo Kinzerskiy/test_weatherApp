@@ -8,7 +8,7 @@
 import UIKit
 
 class DailyWeatherTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var dayOfTheWeekLabel: UILabel!
     @IBOutlet weak var tempMax: UILabel!
     @IBOutlet weak var tempMin: UILabel!
@@ -20,11 +20,11 @@ class DailyWeatherTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-      
+        
+        
     }
     
     static let identifier = "DailyWeatherTableViewCell"
@@ -34,11 +34,18 @@ class DailyWeatherTableViewCell: UITableViewCell {
                      bundle: nil)
     }
     
-    
     func configure(with model: DailyWeatherItem) {
-
-        self.dayOfTheWeekLabel.text = model.dt_txt
-        self.tempMax.text = String(format: "%.1f", model.main.temp) + "°C"
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = inputFormatter.date(from: model.dt_txt) {
+            
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "HH:mm"
+            self.dayOfTheWeekLabel.text = outputFormatter.string(from: date)
+        } else {
+            self.dayOfTheWeekLabel.text = "Unknown"
+        }
         
         if let firstWeather = model.weather.first {
             let weatherModel = WeatherModel(
@@ -52,9 +59,14 @@ class DailyWeatherTableViewCell: UITableViewCell {
                 windSpeed: nil,
                 date: nil
             )
-                
+            
+            self.tempMax.text = String(format: "%.1f°C", weatherModel.tempMaxCelsius)
+            self.tempMin.text = String(format: "%.1f°C", weatherModel.tempMinCelsius)
+            
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }
     }
-
+    
+    
+    
 }

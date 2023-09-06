@@ -16,6 +16,7 @@ class WeatherViewController: UIViewController {
     var currentLocation: CLLocation?
     
     let viewModel = WeatherViewModel()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,9 @@ class WeatherViewController: UIViewController {
         tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
         tableView.register(DailyWeatherTableViewCell.nib(), forCellReuseIdentifier: DailyWeatherTableViewCell.identifier)
         tableView.register(HeaderTableViewCell.nib(), forCellReuseIdentifier: HeaderTableViewCell.identifier)
-
-
+      
+        
+        
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -48,7 +50,7 @@ class WeatherViewController: UIViewController {
         return cell.contentView
     }
     
-
+    
 }
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
@@ -71,7 +73,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("Unknown section")
         }
     }
-
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -83,15 +85,30 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
     }
-
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 250.0
-        } else {
+        switch indexPath.section {
+        case 0:
+            return 150.0
+        case 1:
+            return 80.0
+        default:
             return UITableView.automaticDimension
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let selectedWeather = viewModel.daylyWeather[indexPath.row]
+            
+            if let header = tableView.tableHeaderView as? HeaderTableViewCell {
+             
+                header.updateTemperature(max: selectedWeather.main.tempMax, min: selectedWeather.main.tempMin)
+            }
+        }
+    }
+    
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
@@ -106,10 +123,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
         if !locations.isEmpty, currentLocation == nil  {
             currentLocation = locations.first
             locationManager.stopUpdatingLocation()
-
+            
             if let lat = currentLocation?.coordinate.latitude, let long = currentLocation?.coordinate.longitude {
                 
-               
+                
                 viewModel.manager.fetchWeather(latitude: Float(lat), longitude: Float(long)) {
                     DispatchQueue.main.async {
                         self.tableView.tableHeaderView = self.createTableHeader()
@@ -130,10 +147,9 @@ extension WeatherViewController: CLLocationManagerDelegate {
                         self.tableView.reloadData()
                     }
                 }
-
+                
                 
             }
         }
     }
-
 }

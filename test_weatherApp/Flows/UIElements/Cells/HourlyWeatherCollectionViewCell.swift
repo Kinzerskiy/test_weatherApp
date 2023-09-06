@@ -27,23 +27,33 @@ class HourlyWeatherCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: HourlyWeatherItem) {
-        self.hoursLabel.text = model.dt_txt
-        self.tempLabel.text = String(format: "%.1f", model.main.temp ) + "°C"
         
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = inputFormatter.date(from: model.dt_txt) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "HH:mm"
+            self.hoursLabel.text = outputFormatter.string(from: date)
+        } else {
+            self.hoursLabel.text = "Unknown"
+        }
+        
+        let weatherModel = WeatherModel(
+            conditionId: model.weather.first?.id ?? 0,
+            cityName: "",
+            temperature: model.main.temp,
+            tempMin: model.main.tempMin,
+            tempMax: model.main.tempMax,
+            humidity: model.main.humidity,
+            description: model.weather.first?.description,
+            windSpeed: nil,
+            date: nil
+        )
+        
+        self.tempLabel.text = String(format: "%.1f", weatherModel.tempMaxCelsius) + "°C"
         if let firstWeather = model.weather.first {
-            let weatherModel = WeatherModel(
-                conditionId: firstWeather.id,
-                cityName: "",
-                temperature: model.main.temp ,
-                tempMin: model.main.tempMin,
-                tempMax: model.main.tempMax,
-                humidity: model.main.humidity,
-                description: firstWeather.description,
-                windSpeed: nil,
-                date: nil
-            )
-            
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }
     }
+
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class HeaderTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var cityName: UILabel!
     @IBOutlet weak var day: UILabel!
     @IBOutlet weak var cinditionImage: UIImageView!
@@ -18,14 +18,16 @@ class HeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var wind: UILabel!
     
     var models: WeatherResponse?
+    var updateModel: DailyWeatherItem?
     var mapCompletion: (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
     }
     
     static let identifier = "HeaderTableViewCell"
@@ -33,6 +35,11 @@ class HeaderTableViewCell: UITableViewCell {
     static func nib() -> UINib {
         return UINib(nibName: "HeaderTableViewCell",
                      bundle: nil)
+    }
+    
+    func updateTemperature(max: Double, min: Double) {
+        tempMax.text = String(format: "%.1f°C", max)
+        tempMin.text = String(format: "%.1f°C", min)
     }
     
     
@@ -47,7 +54,7 @@ class HeaderTableViewCell: UITableViewCell {
         wind.text = model.windSpeed.map { "\($0) km/h" } ?? "N/A"
     }
     
-    
+
     @IBAction func mapButtonAction(_ sender: Any) {
         
     }
