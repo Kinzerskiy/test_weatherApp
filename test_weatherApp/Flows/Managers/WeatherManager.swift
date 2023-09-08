@@ -8,12 +8,14 @@
 import Foundation
 import CoreLocation
 
+enum NetworkError: Error {
+    case invalidUrl
+}
+
 
 class WeatherManager {
     
-    var weather: WeatherModel?
-    
-    func fetchWeather(latitude: Float, longitude: Float, completion: @escaping () -> Void) {
+    static func fetchWeather(latitude: Double, longitude: Double, completion: @escaping (WeatherModel?, Error?) -> Void) {
         
         var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather?")
         components?.queryItems = [
@@ -24,7 +26,7 @@ class WeatherManager {
         
         guard let url = components?.url else {
             print("Invalid URL")
-            completion()
+            completion(nil, NetworkError.invalidUrl)
             return
         }
         
@@ -33,39 +35,24 @@ class WeatherManager {
                 do {
                     let decodedResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
                     
-                    let main = decodedResponse.main
-                    let weatherItem = decodedResponse.weather.first
-                    let name = decodedResponse.name
-                    let windSpeed = decodedResponse.wind.speed
-                    let date = Date(timeIntervalSince1970: TimeInterval(decodedResponse.dt))
-
-                    self.weather = WeatherModel(
-                        conditionId: weatherItem?.id ?? 0,
-                        cityName: name,
-                        temperature: main.temp,
-                        tempMin: main.tempMin,
-                        tempMax: main.tempMax,
-                        humidity: main.humidity,
-                        description: weatherItem?.description,
-                        windSpeed: windSpeed,
-                        date: date
-                    )
-                    completion()
+                    
+                    completion(decodedResponse.weatherModel, nil)
+                    
                 } catch {
                     print("Failed to decode: \(error)")
-                    completion()
+                    completion(nil, error)
                 }
             } else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
-                completion()
+                completion(nil, error)
             }
         }.resume()
     }
-
-
     
     
-    func fetchHourlyWeather(latitude: Float, longitude: Float, completion: @escaping ([HourlyWeatherItem]) -> Void) {
+    
+    
+    static func fetchHourlyWeather(latitude: Double, longitude: Double, completion: @escaping ([HourlyWeatherItem]?, Error?) -> Void) {
         var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast?")
         components?.queryItems = [
             URLQueryItem(name: "lat", value: "\(latitude)"),
@@ -75,7 +62,7 @@ class WeatherManager {
         
         guard let url = components?.url else {
             print("Invalid URL")
-            completion([])
+            completion(nil, NetworkError.invalidUrl)
             return
         }
         
@@ -83,19 +70,19 @@ class WeatherManager {
             if let data = data, error == nil {
                 do {
                     let decodedResponse = try JSONDecoder().decode(HourlyWeatherResponse.self, from: data)
-                    completion(decodedResponse.list)
+                    completion(decodedResponse.list, nil)
                 } catch {
                     print("Failed to decode hourly data: \(error)")
-                    completion([])
+                    completion(nil, error)
                 }
             } else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
-                completion([])
+                completion(nil, error)
             }
         }.resume()
     }
     
-    func fetchDailyWeather(latitude: Float, longitude: Float, completion: @escaping ([DailyWeatherItem]) -> Void) {
+    static func fetchDailyWeather(latitude: Double, longitude: Double, completion: @escaping ([DailyWeatherItem]?, Error?) -> Void) {
         
         var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast?")
         components?.queryItems = [
@@ -107,7 +94,7 @@ class WeatherManager {
         
         guard let url = components?.url else {
             print("Invalid URL")
-            completion([])
+            completion(nil, NetworkError.invalidUrl)
             return
         }
         
@@ -118,24 +105,17 @@ class WeatherManager {
                     let decodedResponse = try decoder.decode(DailyWeatherResponse.self, from: data)
                     
                     print(String(data: data, encoding: .utf8) ?? "Invalid data")
-
-                    completion(decodedResponse.list)
+                    
+                    completion(decodedResponse.list, nil)
+                } catch {
+                    print("Failed to decode hourly data: \(error)")
+                    completion(nil, error)
                 }
-            
-            catch DecodingError.keyNotFound(let key, let context) {
-                print("Key not found: \(key.stringValue) in \(context.debugDescription)")
-            } catch DecodingError.typeMismatch(_, let context) {
-                print("Type mismatch: \(context.debugDescription)")
-            } catch {
-                print("Other decoding error: \(error)")
-            }
-              
+                
             } else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
-                completion([])
+                completion(nil, error)
             }
         }.resume()
     }
-
-
 }

@@ -16,41 +16,78 @@ class WeatherViewController: UIViewController {
     var currentLocation: CLLocation?
     
     let viewModel = WeatherViewModel()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
-        tableView.register(DailyWeatherTableViewCell.nib(), forCellReuseIdentifier: DailyWeatherTableViewCell.identifier)
-        tableView.register(HeaderTableViewCell.nib(), forCellReuseIdentifier: HeaderTableViewCell.identifier)
-      
-        
-        
-        tableView.dataSource = self
-        tableView.delegate = self
+        prepareTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupLocation()
+        
+        viewModel.errorCompletion = { [weak self] error in
+            self?.handleError(error: error)
+        }
     }
     
-    
-    
+    func prepareTableView() {
+        tableView.register(HourlyWeatherTableViewCell.nib(), forCellReuseIdentifier: HourlyWeatherTableViewCell.identifier)
+        tableView.register(DailyWeatherTableViewCell.nib(), forCellReuseIdentifier: DailyWeatherTableViewCell.identifier)
+        tableView.register(HeaderTableViewCell.nib(), forCellReuseIdentifier: HeaderTableViewCell.identifier)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
     
     func createTableHeader() -> UIView {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HeaderTableViewCell.identifier) as? HeaderTableViewCell else {
             return UIView()
         }
-        guard let currentWeather = self.viewModel.manager.weather else {
+        guard let currentWeather = self.viewModel.weather else {
             return UIView()
         }
         cell.configure(with: currentWeather)
         return cell.contentView
     }
     
+    func fetchData() {
+        viewModel.loadCurrentLocationWeather {
+            DispatchQueue.main.async {
+                self.tableView.tableHeaderView = self.createTableHeader()
+                self.tableView.reloadData()
+            }
+        }
+        
+        viewModel.loadhHourlyWeather {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        viewModel.loadDailyWeather {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
+    func handleError(error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(.init(title: "Okay", style: .cancel))
+        present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let mapViewController = segue.destination as? MapViewController {
+            mapViewController.selectedCoordinateCompletion = { [weak self] coordinate in
+                self?.viewModel.currentCoordinate = coordinate
+                self?.fetchData()
+            }
+        }
+    }
 }
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
@@ -102,13 +139,14 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             let selectedWeather = viewModel.daylyWeather[indexPath.row]
             
-            if let header = tableView.tableHeaderView as? HeaderTableViewCell {
-             
-                header.updateTemperature(max: selectedWeather.main.tempMax, min: selectedWeather.main.tempMin)
-            }
+            let selectedWeatherModel = WeatherModel(from: selectedWeather)
+            viewModel.updateWeather(by: indexPath.row)
+            
+            self.tableView.tableHeaderView = self.createTableHeader()
+            
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-    
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
@@ -124,31 +162,9 @@ extension WeatherViewController: CLLocationManagerDelegate {
             currentLocation = locations.first
             locationManager.stopUpdatingLocation()
             
-            if let lat = currentLocation?.coordinate.latitude, let long = currentLocation?.coordinate.longitude {
-                
-                
-                viewModel.manager.fetchWeather(latitude: Float(lat), longitude: Float(long)) {
-                    DispatchQueue.main.async {
-                        self.tableView.tableHeaderView = self.createTableHeader()
-                        self.tableView.reloadData()
-                    }
-                }
-                
-                viewModel.manager.fetchHourlyWeather(latitude: Float(lat), longitude: Float(long)) { hourlyData in
-                    DispatchQueue.main.async {
-                        self.viewModel.hourlyWeather = hourlyData
-                        self.tableView.reloadData()
-                    }
-                }
-                
-                viewModel.manager.fetchDailyWeather(latitude: Float(lat), longitude: Float(long)) { dailyData in
-                    DispatchQueue.main.async {
-                        self.viewModel.daylyWeather = dailyData
-                        self.tableView.reloadData()
-                    }
-                }
-                
-                
+            if let coordinate = currentLocation?.coordinate {
+                viewModel.currentCoordinate = coordinate
+                fetchData()
             }
         }
     }

@@ -14,6 +14,27 @@ struct WeatherResponse: Codable {
     let wind: Wind
     let name: String
     let dt: Int
+    
+    var weatherModel: WeatherModel {
+        
+        let main = main
+        let weatherItem = weather.first
+        let name = name
+        let windSpeed = wind.speed
+        let date = Date(timeIntervalSince1970: TimeInterval(dt))
+        
+        return WeatherModel(
+            conditionId: weatherItem?.id ?? 0,
+            cityName: name,
+            temperature: main.temp,
+            tempMin: main.tempMin,
+            tempMax: main.tempMax,
+            humidity: main.humidity,
+            description: weatherItem?.description,
+            windSpeed: windSpeed,
+            date: date
+        )
+    }
 }
 
 struct Coord: Codable {
@@ -30,13 +51,13 @@ struct Weather: Codable {
 
 struct Main: Codable {
     let temp: Double
- 
+    
     let tempMin: Double
     let tempMax: Double
     
     let humidity: Int
-   
-
+    
+    
     enum CodingKeys: String, CodingKey {
         case temp, humidity
         case tempMin = "temp_min"
@@ -87,6 +108,26 @@ struct DailyWeatherItem: Codable {
     let pop: Double
     let dt_txt: String
     
+    func  getWeatherModel(for city: String) -> WeatherModel {
+        
+        let main = main
+        let weatherItem = weather.first
+        let name = city
+        let windSpeed = wind.speed
+        let date = Date(timeIntervalSince1970: TimeInterval(dt))
+        
+        return WeatherModel(
+            conditionId: weatherItem?.id ?? 0,
+            cityName: name,
+            temperature: main.temp,
+            tempMin: main.tempMin,
+            tempMax: main.tempMax,
+            humidity: main.humidity,
+            description: weatherItem?.description,
+            windSpeed: windSpeed,
+            date: date
+        )
+    }
 }
 
 struct Temperature: Codable {

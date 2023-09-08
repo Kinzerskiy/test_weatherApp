@@ -7,6 +7,9 @@
 
 import Foundation
 
+
+import Foundation
+
 struct WeatherModel {
     
     var conditionId: Int
@@ -19,14 +22,11 @@ struct WeatherModel {
     var windSpeed: Double?
     var date: Date?
     
-    
-    
-        
     var dateString: String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EE, d MMM"
-            return dateFormatter.string(from: date ?? Date())
-        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EE, d MMM"
+        return dateFormatter.string(from: date ?? Date())
+    }
     
     var tempeMinString: String {
         return String(format: "%.1f", tempMin)
@@ -39,11 +39,11 @@ struct WeatherModel {
     var temperatureCelsius: Double {
         return temperature - 273.15
     }
-
+    
     var tempMinCelsius: Double {
         return tempMin - 273.15
     }
-
+    
     var tempMaxCelsius: Double {
         return tempMax - 273.15
     }
@@ -67,6 +67,20 @@ struct WeatherModel {
         default:
             return "cloud"
         }
+    }
+}
+
+extension WeatherModel {
+    init(from dailyWeather: DailyWeatherItem) {
+        self.conditionId = dailyWeather.weather.first?.id ?? 0
+        self.cityName = nil
+        self.temperature = dailyWeather.main.temp
+        self.tempMin = dailyWeather.main.tempMin
+        self.tempMax = dailyWeather.main.tempMax
+        self.humidity = dailyWeather.main.humidity
+        self.description = dailyWeather.weather.first?.description
+        self.windSpeed = dailyWeather.wind.speed
+        self.date = Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt))
     }
 }
 

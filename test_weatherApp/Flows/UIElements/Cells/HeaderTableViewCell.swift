@@ -43,7 +43,6 @@ class HeaderTableViewCell: UITableViewCell {
     }
     
     
-    
     func configure(with model: WeatherModel) {
         cityName.text = model.cityName
         day.text = model.dateString
@@ -54,7 +53,7 @@ class HeaderTableViewCell: UITableViewCell {
         wind.text = model.windSpeed.map { "\($0) km/h" } ?? "N/A"
     }
     
-
+    
     @IBAction func mapButtonAction(_ sender: Any) {
         
     }
