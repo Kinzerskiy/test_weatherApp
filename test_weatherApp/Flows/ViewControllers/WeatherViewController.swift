@@ -11,16 +11,16 @@ import CoreLocation
 class WeatherViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var mapBarButtonItem: UIBarButtonItem!
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    
     let viewModel = WeatherViewModel()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        prepareBarItem()
         prepareTableView()
     }
     
@@ -31,6 +31,11 @@ class WeatherViewController: UIViewController {
         viewModel.errorCompletion = { [weak self] error in
             self?.handleError(error: error)
         }
+    }
+    
+    func prepareBarItem() {
+        mapBarButtonItem.target = self
+        mapBarButtonItem.action = #selector(mapButtonTapped)
     }
     
     func prepareTableView() {
@@ -82,11 +87,19 @@ class WeatherViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let mapViewController = segue.destination as? MapViewController {
-            mapViewController.selectedCoordinateCompletion = { [weak self] coordinate in
+            mapViewController.viewModel.didSelectCoordinate = { [weak self] coordinate in
                 self?.viewModel.currentCoordinate = coordinate
                 self?.fetchData()
             }
         }
+    }
+    
+    func showMapViewController() {
+        performSegue(withIdentifier: "map", sender: self)
+    }
+    
+    @objc func mapButtonTapped() {
+        showMapViewController()
     }
 }
 

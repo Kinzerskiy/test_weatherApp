@@ -19,7 +19,6 @@ class HeaderTableViewCell: UITableViewCell {
     
     var models: WeatherResponse?
     var updateModel: DailyWeatherItem?
-    var mapCompletion: (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,8 +52,4 @@ class HeaderTableViewCell: UITableViewCell {
         wind.text = model.windSpeed.map { "\($0) km/h" } ?? "N/A"
     }
     
-    
-    @IBAction func mapButtonAction(_ sender: Any) {
-        
-    }
 }

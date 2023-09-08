@@ -30,10 +30,16 @@
                             <constraint firstItem="SFf-1Y-IHZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vep-Uf-Ba4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="FeF-MX-7yP"/>
+                    <navigationItem key="navigationItem" id="FeF-MX-7yP">
+                        <barButtonItem key="rightBarButtonItem" image="map" catalog="system" id="RAD-Se-sLG">
+                            <connections>
+                                <segue destination="D2z-QE-M4A" kind="show" identifier="map" id="2NP-XI-9zJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="mapBarButtonItem" destination="RAD-Se-sLG" id="go7-h3-kea"/>
                         <outlet property="tableView" destination="SFf-1Y-IHZ" id="7v8-FP-gnG"/>
-                        <segue destination="D2z-QE-M4A" kind="show" id="GTF-T2-4YC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -77,6 +83,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="map" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
