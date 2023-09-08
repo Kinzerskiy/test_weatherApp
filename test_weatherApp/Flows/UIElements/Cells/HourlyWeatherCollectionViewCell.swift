@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class HourlyWeatherCollectionViewCell: UICollectionViewCell {
     
     
@@ -51,9 +52,9 @@ class HourlyWeatherCollectionViewCell: UICollectionViewCell {
         )
         
         self.tempLabel.text = String(format: "%.1f", weatherModel.tempMaxCelsius) + "°C"
-        if let firstWeather = model.weather.first {
+        if let _ = model.weather.first {
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }
     }
-
+    
 }

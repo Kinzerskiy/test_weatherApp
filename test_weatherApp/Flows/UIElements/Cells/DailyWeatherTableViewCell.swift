@@ -15,17 +15,7 @@ class DailyWeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var conditionImage: UIImageView!
     
     var models: DailyWeatherItem?
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        
-    }
+    var onCellSelected: ((Double, Double) -> Void)?
     
     static let identifier = "DailyWeatherTableViewCell"
     
@@ -60,13 +50,15 @@ class DailyWeatherTableViewCell: UITableViewCell {
                 date: nil
             )
             
+            onCellSelected = { [weak self] max, min in
+                self?.tempMax.text = String(format: "%.1f°C", max)
+                self?.tempMin.text = String(format: "%.1f°C", min)
+            }
+            
             self.tempMax.text = String(format: "%.1f°C", weatherModel.tempMaxCelsius)
             self.tempMin.text = String(format: "%.1f°C", weatherModel.tempMinCelsius)
             
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }
     }
-    
-    
-    
 }
