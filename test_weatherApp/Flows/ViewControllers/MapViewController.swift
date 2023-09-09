@@ -42,6 +42,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         alertController.addAction(UIAlertAction(title: "Okay", style: .default) { [weak self] _ in
             alertController.dismiss(animated: true) {
                 self?.viewModel.selectCoordinate(coordinate)
+                self?.navigationController?.popViewController(animated: true)
             }
         })
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
