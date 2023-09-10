@@ -56,5 +56,4 @@ class HourlyWeatherCollectionViewCell: UICollectionViewCell {
             self.conditionImage.image = UIImage(systemName: weatherModel.conditionName)
         }
     }
-    
 }

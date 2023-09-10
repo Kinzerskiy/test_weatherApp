@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -53,10 +54,47 @@
                     <view key="view" contentMode="scaleToFill" id="X0G-VB-Cro">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfP-CJ-0J7">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="818"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="AQy-jv-LKe">
+                                <rect key="frame" x="0.0" y="103" width="393" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="D2z-QE-M4A" id="ZCF-vW-Ov4"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="RhT-hL-D5n">
+                                <rect key="frame" x="0.0" y="159" width="393" height="200"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="UyK-tM-Tgb"/>
+                                </constraints>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="jNx-eN-aHV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QfP-CJ-0J7" firstAttribute="top" secondItem="X0G-VB-Cro" secondAttribute="top" id="IfB-YM-lT9"/>
+                            <constraint firstItem="RhT-hL-D5n" firstAttribute="leading" secondItem="jNx-eN-aHV" secondAttribute="leading" id="JJv-tW-iqh"/>
+                            <constraint firstItem="QfP-CJ-0J7" firstAttribute="leading" secondItem="jNx-eN-aHV" secondAttribute="leading" id="Zzf-EZ-7mD"/>
+                            <constraint firstItem="AQy-jv-LKe" firstAttribute="leading" secondItem="jNx-eN-aHV" secondAttribute="leading" id="fgL-2B-UFN"/>
+                            <constraint firstItem="jNx-eN-aHV" firstAttribute="trailing" secondItem="RhT-hL-D5n" secondAttribute="trailing" id="itp-YK-d34"/>
+                            <constraint firstItem="AQy-jv-LKe" firstAttribute="top" secondItem="jNx-eN-aHV" secondAttribute="top" id="jsq-KS-bjt"/>
+                            <constraint firstItem="AQy-jv-LKe" firstAttribute="trailing" secondItem="jNx-eN-aHV" secondAttribute="trailing" id="lRd-4s-Kfe"/>
+                            <constraint firstItem="RhT-hL-D5n" firstAttribute="top" secondItem="AQy-jv-LKe" secondAttribute="bottom" id="qJP-0v-Fwz"/>
+                            <constraint firstItem="jNx-eN-aHV" firstAttribute="bottom" secondItem="QfP-CJ-0J7" secondAttribute="bottom" id="x7e-Ux-Ymo"/>
+                            <constraint firstItem="jNx-eN-aHV" firstAttribute="trailing" secondItem="QfP-CJ-0J7" secondAttribute="trailing" id="zb8-Ry-cZN"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Rdm-0T-L3R"/>
+                    <connections>
+                        <outlet property="mapView" destination="QfP-CJ-0J7" id="nkw-U9-3WE"/>
+                        <outlet property="searchBar" destination="AQy-jv-LKe" id="HBl-46-NqQ"/>
+                        <outlet property="searchResultsTableView" destination="RhT-hL-D5n" id="Zar-3G-dSy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z8v-6I-GYJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

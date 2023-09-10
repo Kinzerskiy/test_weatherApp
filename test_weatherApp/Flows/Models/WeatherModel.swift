@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-import Foundation
-
 struct WeatherModel {
     
     var conditionId: Int
@@ -83,5 +80,3 @@ extension WeatherModel {
         self.date = Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt))
     }
 }
-
-

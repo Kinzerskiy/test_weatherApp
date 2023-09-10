@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class HourlyWeatherTableViewCell: UITableViewCell {
     
     var hourlyWeatherData: [HourlyWeatherItem] = []

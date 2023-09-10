@@ -4,7 +4,6 @@
 //
 //  Created by Mac Pro on 04.09.2023.
 //
-
 import Foundation
 
 struct WeatherResponse: Codable {

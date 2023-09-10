@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class HeaderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var cityName: UILabel!
@@ -51,5 +52,4 @@ class HeaderTableViewCell: UITableViewCell {
         humadity.text = "\(model.humidity) %"
         wind.text = model.windSpeed.map { "\($0) km/h" } ?? "N/A"
     }
-    
 }
